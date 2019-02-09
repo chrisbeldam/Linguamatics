@@ -30,6 +30,7 @@ def results(request):
 
     results_file = open('temp.csv', 'w') #Open csv file
     result_writer = csv.writer(results_file, delimiter=',')
+    result_writer.writerow(['Year', 'Number Of Results'])
     for year in years: #Checks the number of results for each year and then loops
         handle = Entrez.esearch(
             db="pubmed",
@@ -52,5 +53,6 @@ def results(request):
         'year': year,
         'results': results,
         'results_count': results_count,
+        'results_file': results_file,
         }
     return render(request, 'lm_test/results.html', context)

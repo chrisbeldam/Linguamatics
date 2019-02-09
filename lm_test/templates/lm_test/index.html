@@ -3,11 +3,17 @@
 <div class="container">
     <h1>Linguamatics Test</h1>
 </div>
-<form method="get" action="results" class="form">
-<form action="{% url 'results' %}" method='get' class="form">
-      {% csrf_token %}
-      {{ form }}
-      <button name="submit" id="searchbtn" class="btn btn-primary">Search <i class="fa fa-search" aria-hidden="true"></i></button>
-</form>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+        <form method="get" action="results" class="form">
+        <form action="{% url 'results' %}" method='get' class="form">
+            {% csrf_token %}
+            {{ form }}
+            <button name="submit" id="searchbtn" class="btn btn-primary" style="margin-top:2%;">Search <i class="fa fa-search" aria-hidden="true"></i></button>
+        </form>
+        </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
