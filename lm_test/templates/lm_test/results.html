@@ -1,10 +1,11 @@
 {% extends "lm_test/base.html" %}
 {% block content %}
 <!-- All Results -->
-{{ results }}
+<!-- {{ results }} -->
 <!-- Count -->
+<h1>Total Number of Results: {{ results_count }}</h1>
 <!-- Term Name -->
+<h2>You Searched For: {{ results_name }} </h2>
 <!-- Year Beginning -->
 <!-- Year Ending -->
-
 {% endblock content %}
