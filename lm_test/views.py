@@ -28,9 +28,9 @@ def results(request):
     
     Entrez.email = "chrisgbeldam@gmail.com" #Required by NCBI
 
-    results_file = open('temp.csv', 'w') #Open csv file
+    results_file = open('lm_test/static/lm_test/temp.csv', 'w+') #Open csv file
     result_writer = csv.writer(results_file, delimiter=',')
-    result_writer.writerow(['Year', 'Number Of Results'])
+    result_writer.writerow(['Year', 'Count'])
     for year in years: #Checks the number of results for each year and then loops
         handle = Entrez.esearch(
             db="pubmed",
@@ -54,5 +54,6 @@ def results(request):
         'results': results,
         'results_count': results_count,
         'results_file': results_file,
+        'results_yearly': results_yearly,
         }
     return render(request, 'lm_test/results.html', context)
