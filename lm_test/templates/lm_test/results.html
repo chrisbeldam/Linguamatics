@@ -23,7 +23,7 @@ var y = d3.scaleBand()
 d3.csv("{% static 'lm_test/temp.csv' %}", function(error, data) {
     if (error) throw error;
     console.log(data);
-    Object.keys(data).ForEach(function(d) { // Currently wont work as data is an object
+    data.ForEach(function(d) { // Currently wont work as data is an object
         d.Year = +d.Year;
     });
 
