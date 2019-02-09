@@ -20,8 +20,13 @@ def results(request):
     disease = request.GET.get('disease_name')
     year_from = int(request.GET.get('year_from'))
     year_to = int(request.GET.get('year_to'))
-    years = range(year_from, year_to, -1)
-    Entrez.email = "chrisgbeldam@gmail.com"
+
+    if year_from < year_to:
+       years = range(year_from, year_to, +1)
+    else:
+        years = range(year_from, year_to, -1)
+    
+    Entrez.email = "chrisgbeldam@gmail.com" #Required by NCBI
 
     results_file = open('temp.csv', 'w') #Open csv file
     result_writer = csv.writer(results_file, delimiter=',')
@@ -36,13 +41,12 @@ def results(request):
         )
         results = Entrez.read(handle) 
         results_count = results['Count'] # Total number of results for the search
-        # results_yearly = print(f"Number of papers in {year} is {results_count}")
+        results_yearly = print(f"Number of papers in {year} is {results_count}")
         handle.close() #Close E Search
         
         result_writer.writerow([year,results_count]) # Writes out the results to csv file
         
     results_file.close()
-        # Holding the current count of the disease which was returned
     context = {
         'disease': disease,
         'year': year,
