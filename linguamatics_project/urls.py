@@ -19,5 +19,6 @@ from lm_test import views as lm_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lm_views.index, name="index")
+    path('', lm_views.index, name="index"),
+    path('results/', lm_views.results, name="results"),
 ]
