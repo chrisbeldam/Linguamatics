@@ -53,6 +53,6 @@ def results(request):
         'results': results, #Pass all results
         'results_count': results_count, #Pass results count
         'results_file': results_file, #Pass results csv
-        'results_yearly': results_yearly, #Pass results year
+        # 'results_yearly': results_yearly, #Pass results year
         }
     return render(request, 'lm_test/results.html', context)

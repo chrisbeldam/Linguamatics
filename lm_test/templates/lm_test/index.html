@@ -3,21 +3,21 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <h1 style="padding:5px;">Linguamatics Test</h1>
+            <h1 style="padding:5px; text-align:center;">Linguamatics Test</h1>
         </div>
     </div>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-        <form method="get" action="results" class="form">
-        <form action="{% url 'results' %}" method='get' class="form">
+        <!-- <form method="get" action="results" class="form"> -->
+        <form action="{% url 'results' %}" method='get' class="form" style="text-align:center;">
             {% csrf_token %}
             {{ form.as_p }}
             <button name="submit" id="searchbtn" class="btn btn-primary" style="margin-top:2%;">Search <i class="fa fa-search" aria-hidden="true"></i></button>
         </form>
-        </form>
-        <p style="padding:5px;">All fields on this form are compulsory to achieve a search results. An email is needed due to NCBI's updated guidelines</p>
+        <!-- </form> -->
+        <p style="margin-top:3%; text-align:center">All fields on this form are compulsory to achieve a search results. An email is needed due to NCBI's updated guidelines</p>
         </div>
     </div>
 </div>
