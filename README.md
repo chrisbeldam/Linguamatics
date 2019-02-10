@@ -17,3 +17,6 @@ Project Installation Instructions
 4) Run 'pipenv install' to download all pip packages from piplock file
 5) Run 'python manage.py runserver'
 6) Code should then run fine
+
+Notes
+1) Certifi was installed due to an odd localhost SSL error with Mac OS Mojave and Python 3.7 (not an issue on any other os apparently)
