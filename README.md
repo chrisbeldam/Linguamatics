@@ -2,15 +2,18 @@ Linguamatics Test (Chris Beldam)
 
 All Code is currently working on Mac OS Mojave
 
-Install Instructions
+Prerequisite Python/Software Installs
 
-Install Python 3.7 if not already installed on machine
-Install Pip (Linux sudo apt install python-pip?)
-Install Pipenv (sudo apt install pipenv should work for linux?)
+1) Install Python 3.7 if not already installed on machine
+2) Install Pip (sudo apt-get install python-pip python-dev build-essential 
+and sudo pip install --upgrade pip should work for Linux? )
+3) Install Pipenv (sudo apt install pipenv should work for Linux?)
+
+Project Installation Instructions 
 
 1) Download Repository From Github
 2) CD into directory
-3) In Run pipenv shell
-4) Run pipenv install to download all pip packages
-5) python manage.py runserver
+3) Run 'pipenv shell' in command line (activates a virtual environment)
+4) Run 'pipenv install' to download all pip packages from piplock file
+5) Run 'python manage.py runserver'
 6) Code should then run fine
