@@ -1,46 +1,158 @@
 {% extends "lm_test/base.html" %}
 {% load staticfiles %}
 {% block content %}
-<h1>Bar Chart</h1>
-<a href="{% static 'lm_test/temp.csv' %}">CSV File</a>
-<script src="http://d3js.org/d3.v4.min.js"></script>
+<style>
+
+body {
+    margin: auto;
+    width: 100%;
+    font: 18px arial;
+}
+.bar {
+      fill: #004694;
+    }
+
+.bar:hover {
+    fill: green;
+}
+
+.axis text {
+    font: 15px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path {
+    display: none;
+}
+
+.tooltip {
+    position: absolute;
+    padding: 12px;
+    font: 12px sans-serif;
+    background: #222;
+    color: #fff;
+    border: 0px;
+    border-radius: 10px;
+    pointer-events: none;
+    opacity: 0.9;
+    visibility: hidden;
+}
+    
+</style> 
 <script>
-var margin = {top:50, right:50, bottom:50, left:50};
-var width = 600 - margin.left - margin.right;
-var height = 600 - margin.top - margin.bottom;
 
-var svg = d3.select("#visualization").append("svg")
-    .attr("width", width+margin.left+margin.right)
-    .attr("height", height+margin.top+margin.bottom)
+///////////////////////
+// Parse the Data
+d3.csv("{% static 'lm_test/temp.csv' %}", function(data) {
+
+    ///////////////////////
+    // Chart Size Setup
+    var margin = { top: 35, right: 0, bottom: 30, left: 100 };
+
+    var width = 960 - margin.left - margin.right;
+    var height = 500 - margin.top - margin.bottom;
+
+    var chart = d3.select(".chart")
+        .attr("width", 1080)
+        .attr("height", 860)
     .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-var x = d3.scaleBand()
-    .range([0, width])
-var y = d3.scaleBand()
-    .range([height, 0])
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.csv("{% static 'lm_test/temp.csv' %}", function(error, data) {
-    if (error) throw error;
-    console.log(data);
-    data.ForEach(function(d) { // Currently wont work as data is an object
-        d.Year = +d.Year;
-    });
+    ///////////////////////
+    // Scales
+    var x = d3.scale.ordinal()
+        .domain(data.map(function(d) { return d['Year']; }))
+        .rangeRoundBands([0, width], .1);
 
-    x.domain(data.map(function(d) {return d.Count;}));
-    y.domain(data.map(function(d) {return d.Year;}));
+    var y = d3.scale.linear()
+        .domain([0, d3.max(data, function(d) { return d['Count'];}) * 1.5])
+        .range([height, 0]);
 
-    svg.selectAll(".bar")
-    .data(data)
+    ///////////////////////
+    // Axis
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    chart.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    chart.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+    ///////////////////////
+    // Title
+    chart.append("text")
+    .text('Number of publications over time')
+    .attr("text-anchor", "middle")
+    .attr("class", "graph-title")
+    .attr("y", -10)
+    .attr("x", width / 2.0);
+
+    ///////////////////////
+    // Bars
+    var bar = chart.selectAll(".bar")
+        .data(data)
     .enter().append("rect")
-    .attr("class", "bar")
-    .attr("x", function(d) {return x(d.Count); })
-    .attr("width", x.bandwidth())
-    .attr("y", function(d) {return y(d.Year); })
-    .attr("height", function(d) {return height - y(d.Year); });
+        .attr("class", "bar")
+        .attr("x", function(d) { return x(d['Year']); })
+        .attr("y", height)
+        .attr("width", x.rangeBand())
+        .attr("height", 0);
 
+    bar.transition()
+        .duration(1500)
+        .ease("elastic")
+        .attr("y", function(d) { return y(d['Count']); })
+        .attr("height", function(d) { return height - y(d['Count']); })
+
+    ///////////////////////
+    // Tooltips
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip");
+
+    bar.on("mouseover", function(d) {
+        tooltip.html(d['value'])
+            .style("visibility", "visible")
+            .text(d['Count']);
+        })
+        .on("mousemove", function(d) {
+        tooltip.style("top", event.pageY - (tooltip[0][0].clientHeight + 5) + "px")
+            .style("left", event.pageX - (tooltip[0][0].clientWidth / 2.0) + "px");
+            
+        })
+        .on("mouseout", function(d) {
+        tooltip.style("visibility", "hidden");
+        });
 });
 </script>
-
-<div id="visualization"></div>
+<h1>Bar Chart For {{ disease }}</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <svg class="chart"></svg>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2>You can also view your results as a csv</h2>
+            <a href="{% static 'lm_test/temp.csv' %}">CSV File</a> 
+        </div>
+    </div>
+</div>
 {% endblock content %}

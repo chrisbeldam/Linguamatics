@@ -14,13 +14,12 @@ def index(request):
     }
     return render(request, 'lm_test/index.html', context)
 
-# https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=20&sort=relevance&mindate=2010/01/01&maxdate=2019/01/01&term=fever
-
 def results(request):
     disease = request.GET.get('disease_name')
     year_from = int(request.GET.get('year_from'))
     year_to = int(request.GET.get('year_to'))
 
+    #Increase or decrease results based on which way years are
     if year_from < year_to:
        years = range(year_from, year_to, +1)
     else:
@@ -42,18 +41,18 @@ def results(request):
         )
         results = Entrez.read(handle) 
         results_count = results['Count'] # Total number of results for the search
-        results_yearly = print(f"Number of papers in {year} is {results_count}")
+        # results_yearly = print(f"Number of papers in {year} for {disease} is {results_count}") #printing results
         handle.close() #Close E Search
         
         result_writer.writerow([year,results_count]) # Writes out the results to csv file
         
     results_file.close()
     context = {
-        'disease': disease,
-        'year': year,
-        'results': results,
-        'results_count': results_count,
-        'results_file': results_file,
-        'results_yearly': results_yearly,
+        'disease': disease, #Pass disease name
+        'year': year, #Pass Years
+        'results': results, #Pass all results
+        'results_count': results_count, #Pass results count
+        'results_file': results_file, #Pass results csv
+        'results_yearly': results_yearly, #Pass results year
         }
     return render(request, 'lm_test/results.html', context)
