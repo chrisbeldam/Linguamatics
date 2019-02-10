@@ -5,9 +5,9 @@ All Code is currently working on Mac OS Mojave
 Prerequisite Python/Software Installs
 
 1) Install Python 3.7 if not already installed on machine
-2) Install Pip (sudo apt-get install python-pip python-dev build-essential 
-and sudo pip install --upgrade pip should work for Linux? )
-3) Install Pipenv (sudo apt install pipenv should work for Linux?)
+2) Install Pip ('sudo apt-get install python-pip python-dev build-essential' 
+and 'sudo pip install --upgrade pip' should work for Linux? )
+3) Install Pipenv ('sudo apt install pipenv' should work for Linux?)
 
 Project Installation Instructions 
 
