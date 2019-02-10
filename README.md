@@ -19,4 +19,4 @@ Project Installation Instructions
 6) Code should then run fine
 
 Notes
-1) Certifi was installed due to an odd localhost SSL error with Mac OS Mojave and Python 3.7 (not an issue on any other os apparently)
+1) Certifi was installed due to an odd localhost SSL error with Mac OS Mojave and NCBI (not an issue on any other OS apparently) but Certifi was not used in the end, due to fixing the issue locally.
